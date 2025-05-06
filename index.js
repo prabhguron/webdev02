@@ -14,9 +14,9 @@ const app = express();
 const Joi = require("joi");
 
 
-const expireTime = 1 * 60 * 60 * 1000; //expires after 1 hour (hours * minutes * seconds * millis)
+const expireTime = 1 * 60 * 60 * 1000; //expires after 1 hour 
 
-/* secret information section */
+/* push to github */
 const mongodb_host = process.env.MONGODB_HOST;
 const mongodb_user = process.env.MONGODB_USER;
 const mongodb_password = process.env.MONGODB_PASSWORD;
@@ -24,7 +24,6 @@ const mongodb_database = process.env.MONGODB_DATABASE;
 const mongodb_session_secret = process.env.MONGODB_SESSION_SECRET;
 
 const node_session_secret = process.env.NODE_SESSION_SECRET;
-/* END secret section */
 
 var { database } = include('./databaseConnection.js');
 
@@ -74,12 +73,7 @@ app.get('/nosql-injection', async (req,res) => {
 
 	const schema = Joi.string().max(20).required();
 	const validationResult = schema.validate(username);
-
-	//If we didn't use Joi to validate and check for a valid URL parameter below
-	// we could run our userCollection.find and it would be possible to attack.
-	// A URL parameter of user[$ne]=name would get executed as a MongoDB command
-	// and may result in revealing information about all users or a successful
-	// login without knowing the correct password.
+//I used joi but yup can be used too
     
 	if (validationResult.error != null) {  
 	   console.log(validationResult.error);
@@ -97,7 +91,7 @@ app.get('/nosql-injection', async (req,res) => {
 app.get('/about', (req,res) => {
     var color = req.query.color;
 
-    res.send("<h1 style='color:"+color+";'>Patrick Guichon</h1>");
+    res.send("<h1 style='color:"+color+";'>Prabh Guron</h1>");
 });
 
 app.get('/contact', (req,res) => {
@@ -110,7 +104,7 @@ app.get('/contact', (req,res) => {
         </form>
     `;
     if (missingEmail) {
-        html += "<br> email is required";
+        html += "<br> email is needed";
     }
     res.send(html);
 });
@@ -121,7 +115,7 @@ app.post('/submitEmail', (req,res) => {
         res.redirect('/contact?missing=1');
     }
     else {
-        res.send("Thanks for subscribing with your email: "+email);
+        res.send("Thanks for giving me your email data: "+email);
     }
 });
 
@@ -138,7 +132,7 @@ app.get('/createUser', (req,res) => {
     `;
 
     if (req.query.error) {
-         html += "<p style='color:red;'>Invalid input. Plese reconfirm Username, Password, & Email.</p>";
+         html += "<p style='color:red;'>Invalid input. Wrong.</p>";
     }
     res.send(html);
 });
@@ -189,7 +183,7 @@ app.post('/submitUser', async (req,res) => {
     console.log("Inserted user");
 
     var html = `
-        <h1>User successfully created!</h1>
+        <h1>User successfully created user!</h1>
         <br>
         <a href="/"><button>Back to Home</button></a>
     `;
@@ -254,12 +248,12 @@ app.get('/members', (req, res) => {
     }
 
     const username = req.session.username;
-    const catImages = ['fluffy.gif', 'socks.gif', 'wisetree.webp']; 
+    const catImages = ['fluffy.gif', 'socks.gif', 'naruto.png']; 
     const randomImage = catImages[Math.floor(Math.random() * catImages.length)];
     var html = `
         <h1>Hello, ${username}!</h1>
         <p>Welcome to the members area.</p>
-        <img src="/${randomImage}" alt="Random Cat" style="max-width: 500px; border: 1px solid black;"><br>
+        <img src="/${randomImage}" alt="Random Image" style="max-width: 500px; border: 1px solid black;"><br>
         <a href="/logout"><button>Logout</button></a> 
     `;
     res.send(html);
