@@ -36,16 +36,16 @@ var mongoStore = MongoStore.create({
         secret: mongodb_session_secret
     }
 });
-//connect to mongooooo
-app.use(session({ 
+app.use(session({
     secret: node_session_secret,
-    store: mongoStore, 
-    saveUninitialized: false, 
+    store: mongoStore,
+    saveUninitialized: false,
     resave: true,
     cookie: {
-        httpOnly: true, 
-        secure: process.env.NODE_ENV === 'production', 
-        maxAge: expireTime
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',  // Only secure in production
+        maxAge: expireTime,
+        sameSite: 'None'  // Required for cross-site cookies (especially in production)
     }
 }));
 
