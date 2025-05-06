@@ -248,7 +248,7 @@ app.get('/members', (req, res) => {
     }
 
     const username = req.session.username;
-    const catImages = ['fluffy.gif', 'socks.gif', 'naruto.png']; 
+    const catImages = ['image1.gif', 'socks.gif', 'naruto.png']; 
     const randomImage = catImages[Math.floor(Math.random() * catImages.length)];
     var html = `
         <h1>Hello, ${username}!</h1>
