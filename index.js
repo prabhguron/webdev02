@@ -259,8 +259,9 @@ app.get('/members', (req, res) => {
     res.send(html);
 });
 
-app.get('/logout', (req,res) => {
+app.get('/logout', (req, res) => {
     req.session.destroy(() => {     
+        res.clearCookie('connect.sid');  // Clear the session cookie
         res.redirect('/');
     }); 
 });
